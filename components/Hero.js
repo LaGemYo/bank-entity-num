@@ -17,7 +17,6 @@ const HeroWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: ${props => (props.max ? "100vh" : "60vh")};
     color: var(--mainWhite);
     center/cover no-repeat;
     .title {

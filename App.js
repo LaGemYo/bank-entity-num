@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 import SearchBar from './components/SearchBar';
@@ -11,8 +12,7 @@ class App extends Component {
     return (
       <>
       <Hero/>
-<h1>hello from app.js</h1>
-<SearchBar/>
+      <SearchBar/>
       </>
     );
   }
