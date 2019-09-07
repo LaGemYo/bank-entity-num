@@ -4,7 +4,7 @@ import './App.css';
 
 import SearchBar from './components/SearchBar';
 import Hero from './components/Hero';
-import ApiCall from './services/apiCall';
+import ApiCall from './components/BankList';
 
 import { Route, Switch } from 'react-router-dom';
 

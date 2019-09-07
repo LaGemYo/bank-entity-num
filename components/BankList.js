@@ -1,30 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
 export default class BankList extends Component {
-  constructor(props) {
-    super(props);
-   
+  constructor() {
+    super();
+    this.state = { 
+      data: [], 
+      };
   }
-  
-  async componentDidMount(){
-
+  async componentDidMount() {
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://integration.unnax.com/api/v3/banks/?limit=100`);
+    const json = await response.json();
+    this.setState({ data: json.results });
+    console.log(this.state.data)
   }
-
-  componentDidUpdate(prevProps, prevState){
-    if(prevProps.list !== this.props.list) {
-      this.setState({
-        list: this.props.list ? this.props.list : [],
-      })
-    }
-  }
-
   render() {
-    const list = this.props
-    
+    const {data} = this.state
     return (
-      <div>
-welcome from list {this.props.list}
+      <div className="banks_div">
+        <ul>
+          {data.map(bank => (
+            <li>
+              {bank.name} - {bank.bank_codes}
+            </li>
+          ))}
+        </ul>
       </div>
-    )
+    );
   }
 }
