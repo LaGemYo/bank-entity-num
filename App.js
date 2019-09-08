@@ -4,7 +4,7 @@ import './App.css';
 
 import SearchBar from './components/SearchBar';
 import Hero from './components/Hero';
-import ApiCall from './components/BankList';
+
 
 import { Route, Switch } from 'react-router-dom';
 
@@ -23,7 +23,6 @@ class App extends Component {
       <>
       <Hero/>
       <SearchBar/>
-      <ApiCall/>
       </>
     );
   }
