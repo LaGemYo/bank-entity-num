@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Button } from 'react-bootstrap';
+import Pagination from './Pagination';
 
 export default class SearchBar extends Component {
 
@@ -12,13 +13,32 @@ export default class SearchBar extends Component {
       list: [],
       bankName: "",
       bankCode: "",
+      page: 1,
+      perPage: 0,
     }
   }
 
   async componentDidMount() {
-    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://integration.unnax.com/api/v3/banks/?limit=100`);
+    const { perPage } = this.state
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://integration.unnax.com/api/v3/banks/?limit=10&offset=${perPage}`);
     const json = await response.json();
     this.setState({ data: json.results });
+  }
+
+  onNextPage = () => {
+    const { page, perPage } = this.state;
+    this.setState({
+      page: page + 1,
+      perPage: perPage + 10,
+    })
+  }
+
+  onPrevPage = () => {
+    const { page, perPage } = this.state;
+    this.setState({
+      page: page - 1,
+      perPage: perPage - 10,
+    })
   }
 
   onSearch = (e) => {
@@ -55,11 +75,11 @@ export default class SearchBar extends Component {
 
   render() {
 
-    const { data, list, bankName, bankCode } = this.state
+    const { data, list, bankName, bankCode, page } = this.state
     const bankList = data.map((bank, i) => {
       return <li key={i}> {bank.name} => País: {bank.country} => Código: {bank.bank_codes}</li>
     })
-    const searchedList = list.map((bank, i)=> {
+    const searchedList = list.map((bank, i) => {
       return <li key={i}>{bank}</li>
     })
     return (
@@ -69,7 +89,7 @@ export default class SearchBar extends Component {
             <div className="row">
               <div className="col col-6">
                 <div className="my-4">
-                  <label className="mr-20">Code:</label>
+                  <label className="mr-20">Código de entidad:</label>
                   <input
                     className="my-2"
                     type="text"
@@ -81,7 +101,7 @@ export default class SearchBar extends Component {
               </div>
               <div className="col col-6">
                 <div className="my-4">
-                  <label>Name:</label>
+                  <label>Nombre:</label>
                   <input
                     className="my-2"
                     type="text"
@@ -94,7 +114,7 @@ export default class SearchBar extends Component {
               </div>
               <div className="col col-4">
                 <Button type="submit" className="btn-info">
-                  Search
+                  Buscar
                   </Button>
               </div>
             </div>
@@ -102,6 +122,20 @@ export default class SearchBar extends Component {
         </form>
         <div className="container">
           {list.length > 0 ? searchedList : bankList}
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <Pagination
+                page={page}
+                onPrevPage={this.onPrevPage}
+                onNextPage={this.onNextPage}
+              />
+            </div>
+            <div className="col">
+              <p>{page}</p>
+            </div>
+          </div>
         </div>
       </>
     )
