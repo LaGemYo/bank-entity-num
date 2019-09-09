@@ -19,14 +19,13 @@ export default class SearchBar extends Component {
     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://integration.unnax.com/api/v3/banks/?limit=100`);
     const json = await response.json();
     this.setState({ data: json.results });
-    console.log(this.state.data)
   }
 
   onSearch = (e) => {
     e.preventDefault();
     let name = this.state.bankName;
     let code = this.state.bankCode;
-    let list = this.state.list;
+    let list = [];
     let data = this.state.data;
 
     this.setState({
